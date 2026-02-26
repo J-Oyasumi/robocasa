@@ -2931,6 +2931,20 @@ LIFELONG_LEARNING_TASKS = dict(
     ],
 )
 
+USED_TASKS = [
+    "CloseBlenderLid",
+    "CloseToasterOvenDoor",
+    "OpenCabinet",
+    "OpenDrawer",
+    "PickPlaceCounterToCabinet",
+    "PickPlaceCounterToStove",
+    "PickPlaceSinkToCounter",
+    "SlideDishwasherRack",
+    "TurnOnElectricKettle",
+    "TurnOnSinkFaucet",
+]
+
+
 MG_DATASET_TASKS = [
     task
     for (task, config) in (ATOMIC_TASK_DATASETS | COMPOSITE_TASK_DATASETS).items()
@@ -2964,6 +2978,8 @@ TASK_SET_REGISTRY = dict(
 )
 
 DATASET_SOUP_REGISTRY = dict(
+    used_tasks_pretrain=get_ds_soup(split="pretrain", task_set="used_tasks", source="human"),
+    used_tasks_target=get_ds_soup(split="target", task_set="used_tasks", source="human"),
     # all 50 target tasks
     target50=get_ds_soup(split="target", task_set="target50", source="human"),
     # target: atomic seen
