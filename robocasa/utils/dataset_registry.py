@@ -2952,6 +2952,7 @@ MG_DATASET_TASKS = [
 ]
 
 TASK_SET_REGISTRY = dict(
+    used_tasks=USED_TASKS,
     # all tasks, all atomic, and all composite tasks
     all_tasks=list(ATOMIC_TASK_DATASETS.keys()) + list(COMPOSITE_TASK_DATASETS.keys()),
     all_atomic_tasks=list(ATOMIC_TASK_DATASETS.keys()),
