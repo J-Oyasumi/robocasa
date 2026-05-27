@@ -2944,6 +2944,18 @@ USED_TASKS = [
     "TurnOnSinkFaucet",
 ]
 
+# tasks seen during training (same set as USED_TASKS)
+SEEN_TASKS = USED_TASKS
+
+# tasks held out from training for generalization eval
+UNSEEN_TASKS = [
+    "CloseCabinet",
+    "CloseDishwasher",
+    "CoffeeServeMug",
+    "OpenDishwasher",
+    "SlideOvenRack",
+]
+
 
 MG_DATASET_TASKS = [
     task
@@ -2953,6 +2965,9 @@ MG_DATASET_TASKS = [
 
 TASK_SET_REGISTRY = dict(
     used_tasks=USED_TASKS,
+    # seen / unseen split for generalization eval
+    seen_tasks=SEEN_TASKS,
+    unseen_tasks=UNSEEN_TASKS,
     # all tasks, all atomic, and all composite tasks
     all_tasks=list(ATOMIC_TASK_DATASETS.keys()) + list(COMPOSITE_TASK_DATASETS.keys()),
     all_atomic_tasks=list(ATOMIC_TASK_DATASETS.keys()),

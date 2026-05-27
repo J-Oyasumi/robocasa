@@ -12,6 +12,7 @@ import robocasa
 from robocasa.utils.dataset_registry import (
     COMPOSITE_TASK_DATASETS,
     ATOMIC_TASK_DATASETS,
+    TASK_SET_REGISTRY,
 )
 from robocasa.macros import DATASET_BASE_PATH
 from robocasa.utils.dataset_registry_utils import get_ds_meta
@@ -189,6 +190,15 @@ if __name__ == "__main__":
         help="Tasks to download datasets for. Defaults to all tasks",
     )
     parser.add_argument(
+        "--task_set",
+        type=str,
+        nargs="+",
+        default=None,
+        choices=list(TASK_SET_REGISTRY.keys()),
+        help="Named task set(s) from TASK_SET_REGISTRY to download (e.g. seen_tasks unseen_tasks). "
+        "Expanded and merged with --tasks.",
+    )
+    parser.add_argument(
         "--source",
         type=str,
         nargs="+",
@@ -220,6 +230,14 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    # expand named task sets and merge with explicit --tasks (dedupe, preserve order)
+    tasks = args.tasks
+    if args.task_set is not None:
+        tasks = list(tasks) if tasks else []
+        for ts in args.task_set:
+            tasks.extend(TASK_SET_REGISTRY[ts])
+        tasks = list(dict.fromkeys(tasks))
+
     ans = input("This script may download several Gb of data. Proceed? (y/n) ")
     if ans == "y":
         print("Proceeding...")
@@ -230,7 +248,7 @@ if __name__ == "__main__":
     download_datasets(
         all_data=args.all,
         split=args.split,
-        tasks=args.tasks,
+        tasks=tasks,
         source=args.source,
         overwrite=args.overwrite,
         dryrun=args.dryrun,
